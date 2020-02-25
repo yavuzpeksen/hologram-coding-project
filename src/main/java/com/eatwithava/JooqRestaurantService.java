@@ -30,13 +30,13 @@ public class JooqRestaurantService {
      *
      * TODO: Implement me
      *
-     *  NOTE:  This method should have the same logic as SQLRestaurantService.getOpen, but should use the Jooq SQL DSL:
+     *  NOTE:  This method should have the same logic as SQLRestaurantService.getOpenRestaurants, but should use the Jooq SQL DSL:
      *
      *  https://www.jooq.org/doc/3.13/manual-single-page/#select-statement
      *
      *
      */
-    public List<RestaurantsRecord> getOpen(final DayOfWeek dayOfWeek, final LocalTime localTime) throws SQLException {
+    public List<RestaurantsRecord> getOpenRestaurants(final DayOfWeek dayOfWeek, final LocalTime localTime) throws SQLException {
         final String dayOfWeekString = dayOfWeek.toString();
         final Integer minuteOfDay    = localTime.get(MINUTE_OF_DAY);
 

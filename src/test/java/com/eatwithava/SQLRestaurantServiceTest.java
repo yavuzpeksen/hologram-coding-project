@@ -30,7 +30,7 @@ public class SQLRestaurantServiceTest {
 
     @Test
     public void getOpenLate() throws Exception {
-        final List<RestaurantRecord> restaurantRecords = sqlRestaurantService.getOpen(DayOfWeek.SATURDAY, LocalTime.MIDNIGHT);
+        final List<RestaurantRecord> restaurantRecords = sqlRestaurantService.getOpenRestaurants(DayOfWeek.SATURDAY, LocalTime.MIDNIGHT);
         final Set<String> names = restaurantRecords.stream().map(RestaurantRecord::getName).collect(Collectors.toSet());
 
         final Set<String> expectedNames = Arrays.asList(
@@ -42,7 +42,7 @@ public class SQLRestaurantServiceTest {
 
     @Test
     public void getOpenReallyLate() throws Exception {
-        final List<RestaurantRecord> restaurantRecords = sqlRestaurantService.getOpen(DayOfWeek.SATURDAY, LocalTime.of(2, 0));
+        final List<RestaurantRecord> restaurantRecords = sqlRestaurantService.getOpenRestaurants(DayOfWeek.SATURDAY, LocalTime.of(2, 0));
 
         final Set<String> names = restaurantRecords.stream().map(RestaurantRecord::getName).collect(Collectors.toSet());
         final Set<String> expectedNames = Arrays.asList("Tim's Nighttime Banana Stand").stream().collect(Collectors.toSet());

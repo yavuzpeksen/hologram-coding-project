@@ -26,7 +26,7 @@ public class JooqRestaurantServiceTest {
 
     @Test
     public void getOpenLate() throws Exception {
-        final List<RestaurantsRecord> restaurantRecords = jooqRestaurantService.getOpen(DayOfWeek.SATURDAY, LocalTime.MIDNIGHT);
+        final List<RestaurantsRecord> restaurantRecords = jooqRestaurantService.getOpenRestaurants(DayOfWeek.SATURDAY, LocalTime.MIDNIGHT);
         final Set<String> names = restaurantRecords.stream().map(RestaurantsRecord::getName).collect(Collectors.toSet());
 
         final Set<String> expectedNames = Arrays.asList(
@@ -38,7 +38,7 @@ public class JooqRestaurantServiceTest {
 
     @Test
     public void getOpenReallyLate() throws Exception {
-        final List<RestaurantsRecord> restaurantRecords = jooqRestaurantService.getOpen(DayOfWeek.SATURDAY, LocalTime.of(2, 0));
+        final List<RestaurantsRecord> restaurantRecords = jooqRestaurantService.getOpenRestaurants(DayOfWeek.SATURDAY, LocalTime.of(2, 0));
 
         final Set<String> names = restaurantRecords.stream().map(RestaurantsRecord::getName).collect(Collectors.toSet());
         final Set<String> expectedNames = Arrays.asList("Tim's Nighttime Banana Stand").stream().collect(Collectors.toSet());

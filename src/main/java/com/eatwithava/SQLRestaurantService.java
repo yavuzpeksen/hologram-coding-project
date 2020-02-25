@@ -32,10 +32,10 @@ public class SQLRestaurantService {
      *
      *  Write a prepared SQL statement (with safe variable replacement) which returns all the restaurants that are open for the given DayOfWeek and LocalTime
      *
-     *  Using the same open logic from CSVRestaurantService.getOpen
+     *  Using the same open logic from CSVRestaurantService.getOpenRestaurants
      *
      */
-    public List<RestaurantRecord> getOpen(final DayOfWeek dayOfWeek, final LocalTime localTime) throws SQLException {
+    public List<RestaurantRecord> getOpenRestaurants(final DayOfWeek dayOfWeek, final LocalTime localTime) throws SQLException {
         final String dayOfWeekString = dayOfWeek.toString();
 
         final DayOfWeek nextDayOfWeek = dayOfWeek.plus(1);

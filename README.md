@@ -5,6 +5,9 @@ This is a project to test your SQL and Java skills.  You will be parsing a csv f
 
 ## CSVRestaurantService
 
+Read over this file:
+
+src/main/resource/rest_hours.csv
 
 1. Implement parse
 
@@ -13,24 +16,31 @@ This is a project to test your SQL and Java skills.  You will be parsing a csv f
 
 ## SQLRestaurantService
 
+Read over these files:
+
 Schema: src/main/resource/schema.sql
 Data:   src/main/resource/data.sql
 
-1. Implement getOpen
+1. Implement getOpenRestaurants
 2. Implement getRestaurantsWithMenuOfSizeGreaterThanOrEqualTo
 
 ## JooqRestaurantService (Bonus)
 
-As a bonus you can show your skills with learning a new libary.
+As a bonus you can show your skills with learning a new library.
 
-Jooq (https://www.jooq.org) is a Java library that makes writing SQL easier.
-You will re-implement the methods in SQLRestaurantService, but using the Jooq DSL.
+Jooq (https://www.jooq.org) is a Java library that makes writing SQL easier and more typesafe.
+You will re-implement the methods in SQLRestaurantService, but using the Jooq DSL (Domain specific language.
 
-1. Implement getOpen
+1. Implement getOpenRestaurants
 2. Implement getRestaurantsWithMenuOfSizeGreaterThanOrEqualTo
 
 ## Testing
 
+You can run the tests using Intellij/Eclipse or run this from the command line:
+
+```
+mvn test
+```
 
 
 ## Submitting your solution
