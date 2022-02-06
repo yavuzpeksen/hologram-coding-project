@@ -1,7 +1,8 @@
-# Restaurant App
+# Coding Project
 
 This is a project to test your SQL and Java skills.  You will be parsing a csv file, writing some logic, reading a SQL database (H2) schema, and writing some SQL.
 
+## Algorithms
 
 ## CSVRestaurantService
 
