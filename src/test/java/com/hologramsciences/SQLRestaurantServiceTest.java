@@ -1,4 +1,4 @@
-package com.eatwithava;
+package com.hologramsciences;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.eatwithava.sql.RestaurantRecord;
+import com.hologramsciences.sql.RestaurantRecord;
 
 import static junit.framework.TestCase.assertTrue;
 

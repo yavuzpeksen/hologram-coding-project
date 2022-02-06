@@ -1,4 +1,4 @@
-package com.eatwithava.sql;
+package com.hologramsciences.sql;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;

@@ -1,4 +1,4 @@
-package com.eatwithava;
+package com.hologramsciences;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.h2.jdbcx.JdbcDataSource;
 
-import com.eatwithava.sql.RestaurantRecord;
+import com.hologramsciences.sql.RestaurantRecord;
 
 import static java.time.temporal.ChronoField.MINUTE_OF_DAY;
 

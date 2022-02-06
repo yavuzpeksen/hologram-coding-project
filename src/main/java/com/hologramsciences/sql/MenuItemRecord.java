@@ -1,4 +1,4 @@
-package com.eatwithava.sql;
+package com.hologramsciences.sql;
 
 public class MenuItemRecord {
     private final long id;

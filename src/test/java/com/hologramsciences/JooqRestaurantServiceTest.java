@@ -1,4 +1,4 @@
-package com.eatwithava;
+package com.hologramsciences;
 
 
 import java.time.DayOfWeek;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.eatwithava.jooq.tables.records.RestaurantsRecord;
+import com.hologramsciences.jooq.tables.records.RestaurantsRecord;
 
 import static junit.framework.TestCase.assertTrue;
 

@@ -1,4 +1,4 @@
-package com.eatwithava;
+package com.hologramsciences;
 
 import java.io.IOException;
 import java.time.DayOfWeek;

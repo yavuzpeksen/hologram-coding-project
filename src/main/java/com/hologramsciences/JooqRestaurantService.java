@@ -1,4 +1,4 @@
-package com.eatwithava;
+package com.hologramsciences;
 
 import java.sql.SQLException;
 import java.time.DayOfWeek;
@@ -17,9 +17,9 @@ import org.jooq.meta.jaxb.Jdbc;
 import org.jooq.meta.jaxb.Property;
 import org.jooq.meta.jaxb.Target;
 
-import com.eatwithava.jooq.tables.records.RestaurantsRecord;
+import com.hologramsciences.jooq.tables.records.RestaurantsRecord;
 
-import static com.eatwithava.jooq.tables.Restaurants.RESTAURANTS;
+import static com.hologramsciences.jooq.tables.Restaurants.RESTAURANTS;
 import static java.time.temporal.ChronoField.MINUTE_OF_DAY;
 
 public class JooqRestaurantService {

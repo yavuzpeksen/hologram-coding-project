@@ -1,4 +1,4 @@
-package com.eatwithava;
+package com.hologramsciences;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
