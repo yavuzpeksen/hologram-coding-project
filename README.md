@@ -1,8 +1,23 @@
 # Coding Project
 
-This is a project to test your SQL and Java skills.  You will be parsing a csv file, writing some logic, reading a SQL database (H2) schema, and writing some SQL.
+
+### Fork the project
+
+Fork this repository, and update the README.md link to Gitpod below to use your Github fork public link.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/EatWithAva/hologram-coding-project)
+
+### Overview of the coding assignment
+
+This is a project to test your algorithms, Java, and SQL.  You will be writing some utility functions, parsing a csv file, writing some logic, reading a SQL database (H2) schema, and writing some SQL.
 
 ## Algorithms
+
+Read over this file: src/main/java/com/hologramsciences/Algorithms.java
+
+1. Implement cartesianProductForLists
+
+2. countNumWaysMakeChange
 
 ## CSVRestaurantService
 
@@ -43,12 +58,8 @@ You can run the tests using Intellij/Eclipse or run this from the command line:
 mvn test
 ```
 
-
 ## Submitting your solution
 
-Make a zip file with your solution and email it for evaluation.
+Make sure to update README.md link to open Gitpod to use your Github fork public link.
 
-```
-git archive -o latest.zip HEAD
-```
-
+Reply to email with a link to your Github fork.
