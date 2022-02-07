@@ -17,7 +17,7 @@ Read over this file: src/main/java/com/hologramsciences/Algorithms.java
 
 1. Implement cartesianProductForLists
 
-2. countNumWaysMakeChange
+2. Implement countNumWaysMakeChange
 
 ## CSVRestaurantService
 
