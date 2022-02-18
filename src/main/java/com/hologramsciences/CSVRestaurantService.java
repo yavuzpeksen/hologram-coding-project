@@ -19,7 +19,6 @@ import java.util.stream.Stream;
 import com.hologramsciences.Restaurant.OpenHours;
 
 import org.apache.commons.csv.CSVRecord;
-import org.apache.commons.lang3.StringUtils;
 
 import io.atlassian.fugue.Option;
 
