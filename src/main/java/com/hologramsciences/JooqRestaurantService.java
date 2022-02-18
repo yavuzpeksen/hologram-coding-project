@@ -20,7 +20,10 @@ import org.jooq.meta.jaxb.Target;
 import com.hologramsciences.jooq.tables.records.RestaurantsRecord;
 
 import static com.hologramsciences.jooq.tables.Restaurants.RESTAURANTS;
+import static com.hologramsciences.jooq.tables.OpenHours.OPEN_HOURS;
+import static com.hologramsciences.jooq.tables.MenuItems.MENU_ITEMS;
 import static java.time.temporal.ChronoField.MINUTE_OF_DAY;
+import static org.jooq.impl.DSL.count;
 
 public class JooqRestaurantService {
 
@@ -40,10 +43,28 @@ public class JooqRestaurantService {
         final String dayOfWeekString = dayOfWeek.toString();
         final Integer minuteOfDay    = localTime.get(MINUTE_OF_DAY);
 
+        final DayOfWeek previousDayOfWeek = dayOfWeek.minus(1);
+        final String previousDayOfWeekString = previousDayOfWeek.toString();
+
         return withDSLContext(create -> {
             return create
-                    .selectFrom(RESTAURANTS)
-                    .fetch();
+                    .select(RESTAURANTS.fields())
+                    .from(RESTAURANTS).join(OPEN_HOURS).on(RESTAURANTS.ID.eq(OPEN_HOURS.RESTAURANT_ID))
+                    .where(
+                        (
+                            OPEN_HOURS.DAY_OF_WEEK.eq(dayOfWeekString)
+                            .and(OPEN_HOURS.START_TIME_MINUTE_OF_DAY.lessThan(minuteOfDay))
+                            .and(OPEN_HOURS.END_TIME_MINUTE_OF_DAY.greaterThan(minuteOfDay))
+                        )
+                        .or(
+                            
+                                OPEN_HOURS.DAY_OF_WEEK.eq(previousDayOfWeekString)
+                                .and(OPEN_HOURS.END_TIME_MINUTE_OF_DAY.greaterThan(minuteOfDay))
+                                .and(OPEN_HOURS.START_TIME_MINUTE_OF_DAY.greaterThan(minuteOfDay))
+                                .and(OPEN_HOURS.END_TIME_MINUTE_OF_DAY.lessThan(OPEN_HOURS.START_TIME_MINUTE_OF_DAY))
+                            )
+                        )
+                    .fetchInto(RESTAURANTS);
         });
     }
 
@@ -59,8 +80,10 @@ public class JooqRestaurantService {
     public List<RestaurantsRecord> getRestaurantsWithMenuOfSizeGreaterThanOrEqualTo(final Integer menuSize) throws SQLException {
         return withDSLContext(create -> {
             return create
-                    .selectFrom(RESTAURANTS)
-                    .fetch();
+                    .select(RESTAURANTS.fields())
+                    .from(RESTAURANTS).join(MENU_ITEMS).on(MENU_ITEMS.RESTAURANT_ID.eq(RESTAURANTS.ID))
+                    .groupBy(RESTAURANTS.fields()).having(count(MENU_ITEMS).equal(menuSize))
+                    .fetchInto(RESTAURANTS);
         });
     }
 

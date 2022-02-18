@@ -5,13 +5,21 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoField;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.hologramsciences.Restaurant.OpenHours;
+
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.lang3.StringUtils;
 
 import io.atlassian.fugue.Option;
 
@@ -57,14 +65,42 @@ public class CSVRestaurantService {
      *
      */
     public static Option<Restaurant> parse(final CSVRecord r) {
-        return Option.none();
+        if(r.size() < 2) {
+            return Option.none();
+        }
+        Option<Restaurant> maybeRestaurant = Option.some(new Restaurant(r.get(0), parseOpenHour(r.get(1))));
+        return maybeRestaurant
+            .filter(elm -> !elm.getOpenHoursMap().isEmpty() && elm.getOpenHoursMap().values().stream().allMatch(it -> !it.getStartTime().equals(it.getEndTime())))
+            .orElse(Option.none());
     }
 
     /**
      * TODO: Implement me, This is a useful helper method
      */
     public static Map<DayOfWeek, Restaurant.OpenHours> parseOpenHour(final String openhoursString) {
-        return Collections.emptyMap();
+        List<String> daysAndHoursGroup = new ArrayList<>();
+        if (openhoursString.contains(";")) {
+            daysAndHoursGroup = Arrays.stream(openhoursString.split(";")).collect(Collectors.toList());   
+        } else {
+            daysAndHoursGroup.add(openhoursString);
+        }
+        Map<DayOfWeek, OpenHours> dayOpenHoursMap = new HashMap<>();
+        for (String dayAndHourText : daysAndHoursGroup) {
+            //System.out.println(dayHour);
+            String[] timeTypes = dayAndHourText.split(Pattern.quote("|"));
+            String[] days = timeTypes[0].split(Pattern.quote(","));
+            String[] timesInDay = timeTypes[1].split(Pattern.quote("-"));
+            for (String day : days) {
+                    int startHour = Integer.parseInt(timesInDay[0].split(":")[0]);
+                    int startMinute = Integer.parseInt(timesInDay[0].split(":")[1]);
+                    int endHour = Integer.parseInt(timesInDay[1].split(":")[0]);
+                    int endMinute = Integer.parseInt(timesInDay[1].split(":")[1]);
+                    if (getDayOfWeek(day).isDefined()) {
+                        dayOpenHoursMap.put(getDayOfWeek(day).get(), new OpenHours(LocalTime.of(startHour, startMinute), LocalTime.of(endHour, endMinute)));
+                    }
+            }
+        }
+        return dayOpenHoursMap.size() > 0 ? dayOpenHoursMap : Collections.emptyMap();
     }
 
     public CSVRestaurantService() throws IOException {
@@ -101,8 +137,39 @@ public class CSVRestaurantService {
      *
      */
     public List<Restaurant> getOpenRestaurants(final DayOfWeek dayOfWeek, final LocalTime localTime) {
-        return Collections.emptyList();
+        List<Restaurant> results = new ArrayList<>();
+        DayOfWeek previousDay = dayOfWeek.minus(1);
+        for (Restaurant restaurant : restaurantList) {
+            OpenHours openHoursOfPreviousDay = restaurant.getOpenHoursMap().get(previousDay);
+            OpenHours openHoursOfSameDay = restaurant.getOpenHoursMap().get(dayOfWeek);
+            if(openHoursOfSameDay != null && openHoursOfSameDay.spansMidnight()) {
+                if (openHoursOfSameDay.getStartTime().compareTo(localTime) == -1) {
+                    results.add(restaurant);
+                } else if (openHoursOfPreviousDay.spansMidnight()) {
+                    if (localTime.compareTo(openHoursOfPreviousDay.getEndTime()) == -1) {
+                        results.add(restaurant);
+                    }
+                }
+            } else {
+                if(openHoursOfSameDay != null && openHoursOfSameDay.getEndTime() == LocalTime.MIDNIGHT) {
+                    if (openHoursOfSameDay.getStartTime().compareTo(localTime) == -1) {
+                        results.add(restaurant);
+                    }
+                } else {
+                    if (openHoursOfSameDay != null && openHoursOfSameDay.getStartTime().compareTo(localTime) == -1 && localTime.compareTo(openHoursOfSameDay.getEndTime()) == -1) {
+                        results.add(restaurant);
+                    } else if (openHoursOfPreviousDay != null && openHoursOfPreviousDay.spansMidnight()) {
+                        if (localTime.compareTo(openHoursOfPreviousDay.getEndTime()) == -1) {
+                            results.add(restaurant);
+                        }
+                    }
+                }
+                
+            }
+        }
+        return results;
     }
+
 
     public List<Restaurant> getOpenRestaurantsForLocalDateTime(final LocalDateTime localDateTime) {
         return getOpenRestaurants(localDateTime.getDayOfWeek(), localDateTime.toLocalTime());

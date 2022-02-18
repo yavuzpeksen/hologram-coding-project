@@ -49,14 +49,14 @@ public class SQLRestaurantService {
 
         final String query = String.join("\n"
                 ,
-                 "select * from restaurants"
-                , ""
-                , ""
-                , ""
-                , ""
+                 "select rest.* from restaurants rest"
+                , " inner join open_hours oh on rest.id = oh.restaurant_id "
+                , " and ((oh.day_of_week = ? and oh.start_time_minute_of_day < ? and oh.end_time_minute_of_day > ?)"
+                , " or (oh.day_of_week = ? and ? < oh.end_time_minute_of_day and oh.start_time_minute_of_day > ?"
+                , " and oh.end_time_minute_of_day < oh.start_time_minute_of_day))"
         );
 
-        return runQueryAndParseRestaurants(query, dayOfWeekString, minuteOfDay);
+        return runQueryAndParseRestaurants(query, dayOfWeekString, minuteOfDay, minuteOfDay, previousDayOfWeekString, minuteOfDay, minuteOfDay);
     }
 
     /**
@@ -73,9 +73,9 @@ public class SQLRestaurantService {
 
         final String query = String.join("\n"
                 ,
-                " select * from restaurants"
-                , ""
-                , ""
+                " select rest.id,rest.name from restaurants rest"
+                , " inner join menu_items mi on rest.id = mi.restaurant_id"
+                , " group by (rest.id, rest.name) having count(mi.*) >= ?"
                 , ""
                 , ""
         );
